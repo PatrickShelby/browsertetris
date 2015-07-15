@@ -139,10 +139,20 @@ Game.getMaxLine = function(){
 
 console.log(Game.maxLine);
 
+
+
 Game.Piece = function(options){
   this.x = options.x;
   this.y = options.y;
 };
+
+Game.Piece.prototype.moveLeft = function(current_piece){
+  this.x -= 30;
+}
+
+Game.Piece.prototype.moveRight = function(current_piece){
+  this.x += 30;
+}
 
 Game.Piece.prototype.drop = function(current_piece){
   if (this.y < Game.maxLine) {
@@ -180,6 +190,17 @@ Game.Piece.prototype.drop = function(current_piece){
 //     ctx.stroke();
 
 //   };
+
+window.addEventListener('keydown', function(event) {
+  switch(event.keyCode) {
+    case 37:
+    this.Game.pieces[this.Game.pieces.length-1].moveLeft();
+  }
+  switch(event.keyCode) {
+    case 39:
+    this.Game.pieces[this.Game.pieces.length-1].moveRight();
+  }
+});
 
 
 Game.start()
