@@ -72,15 +72,8 @@
 
 
 
-
-
-
-
-
-
-
 Game = {
-  FRAME_DELAY: 1000,
+  FRAME_DELAY: 100,
   lastTick: 0,
   pieces: []
 };
@@ -100,11 +93,13 @@ Game.onAnimationFrame = function(){
 Game.tick = function(){
   this.lastTick = new Date().getTime();
   console.log('GAME TICK');
-  this.pieces.forEach(function(piece){
-    piece.drop();
-  });
+  this.pieces[this.pieces.length-1].drop();
   this.redraw();
 }
+
+// this.pieces.forEach(function(piece){
+//     piece.drop(piece);
+//   });
 
 
 
@@ -112,9 +107,11 @@ Game.tick = function(){
 Game.redraw = function(){
   var canvas = document.getElementById("myCanvas");
   var ctx = canvas.getContext("2d");
+  canvas.width = 300;
+  canvas.height = 600;
 
   // WTF PANDA! (why????)
-  ctx.clearRect(0, 0,9999,9999);
+  // ctx.clearRect(0, 0,9999,9999);
   canvas.width = canvas.width
 
   this.pieces.forEach(function(piece){
@@ -125,19 +122,44 @@ Game.redraw = function(){
 };
 
 
+Game.Board = function(){
+  maxCoord = []
+  this.maxLine = function() {
+    var maxLine = 0
+    var maxColumn = 0
+    for (i=0; i<this.pieces.length;i++){
+      if (pieces[i].y < pieces[i+1].y) {
+        maxCoord.push(pieces[i+1].y);
+        maxCoord.push(pieces[i+1].x)
+      }
+    }return maxCoord
+  }
+}
 
+console.log(Game.Board.maxLine);
 
 Game.Piece = function(options){
   this.x = options.x;
   this.y = options.y;
 };
-Game.Piece.prototype.drop = function(){
-  this.y += 10;
+
+Game.Piece.prototype.drop = function(current_piece){
+  if (this.y < 570) {
+    this.y += 10;
+  }
+  else {
+    Game.pieces.push(new Game.Piece({x:30,y:0,}))
+  }
+
 };
 
-Game.pieces.push(new Game.Piece({x:0,y:0}))
+// if (!Game.Piece.drop();) {
+  Game.pieces.push(new Game.Piece({x:0,y:0,}))
+  Game.pieces.push(new Game.Piece({x:30,y:0,}))
+// }
 
 
+// (Game.Board.maxLine) && (this.x !== Game.Board.maxLine.column)
 //   var drawPiece = function(coordinates){
 //     for (i=0;i<coordinates.length;i+=2) {
 //       x = coordinates[i];
@@ -159,14 +181,9 @@ Game.pieces.push(new Game.Piece({x:0,y:0}))
 //   };
 
 
+Game.start()
 
 
-
-
-
-
-
-Game.start();
 
 
 
