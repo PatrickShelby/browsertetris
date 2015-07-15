@@ -75,7 +75,8 @@
 Game = {
   FRAME_DELAY: 100,
   lastTick: 0,
-  pieces: []
+  pieces: [],
+  maxLine: 570,
 };
 
 Game.start = function(){
@@ -122,21 +123,21 @@ Game.redraw = function(){
 };
 
 
-Game.Board = function(){
-  maxCoord = []
-  this.maxLine = function() {
-    var maxLine = 0
-    var maxColumn = 0
-    for (i=0; i<this.pieces.length;i++){
-      if (pieces[i].y < pieces[i+1].y) {
-        maxCoord.push(pieces[i+1].y);
-        maxCoord.push(pieces[i+1].x)
-      }
-    }return maxCoord
+Game.getMaxLine = function(){
+  console.log(Game.pieces[0])
+  console.log(Game.maxLine)
+  for (i=0; i< Game.pieces.length; i++){
+    if (Game.pieces[i].y === Game.maxLine) {
+      Game.maxLine = (Game.pieces[i].y - 30);
+    }
+    else {
+      console.log("fuck")
+    }
+    console.log(Game.maxLine)
   }
-}
+};
 
-console.log(Game.Board.maxLine);
+console.log(Game.maxLine);
 
 Game.Piece = function(options){
   this.x = options.x;
@@ -144,17 +145,17 @@ Game.Piece = function(options){
 };
 
 Game.Piece.prototype.drop = function(current_piece){
-  if (this.y < 570) {
+  if (this.y < Game.maxLine) {
     this.y += 10;
   }
   else {
+    Game.getMaxLine();
     Game.pieces.push(new Game.Piece({x:30,y:0,}))
   }
 
 };
 
 // if (!Game.Piece.drop();) {
-  Game.pieces.push(new Game.Piece({x:0,y:0,}))
   Game.pieces.push(new Game.Piece({x:30,y:0,}))
 // }
 
