@@ -147,6 +147,16 @@ Game.Board = function(){
   this.row = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
 };
 
+Game.Board.prototype.getMaxLineOfColumn = (function(columnz) {
+  max = 570
+  for (i=0;i<board.column[columnz].length; i++) {
+    if (this.column[columnz][i].x > this.column[columnz][i+1].x) {
+      max = this.column[columnz][i].x
+      console.log(max)
+    };
+  };
+})();
+
 Game.Piece = function(options){
   this.x = options.x;
   this.y = options.y;
@@ -161,12 +171,12 @@ Game.Piece.prototype.moveRight = function(current_piece){
 };
 
 Game.Piece.prototype.drop = function(current_piece){
-  if (this.y < Game.maxLine) {
+  column = this.x/30;
+  if (this.y < Game.Board.getMaxLineOfColumn(this.x/30)) {
     this.y += 10;
 
   }
   else {
-    Game.Board();
     board.column[this.x/30].push(this)
     console.log(board.column)
     Game.getMaxLine();
