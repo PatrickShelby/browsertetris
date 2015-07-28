@@ -73,7 +73,7 @@
 
 
 Game = {
-  FRAME_DELAY: 100,
+  FRAME_DELAY: 70,
   lastTick: 0,
   pieces: [],
   maxLine: 570,
@@ -81,6 +81,7 @@ Game = {
 
 Game.start = function(){
   Game.onAnimationFrame();
+  board = new Game.Board
 };
 
 Game.onAnimationFrame = function(){
@@ -123,8 +124,10 @@ Game.redraw = function(){
 };
 
 
+
+// for i in
 Game.getMaxLine = function(){
-  console.log(Game.pieces[0])
+  console.log(Game.pieces[Game.pieces.length - 1])
   console.log(Game.maxLine)
   for (i=0; i< Game.pieces.length; i++){
     if (Game.pieces[i].y === Game.maxLine) {
@@ -139,7 +142,10 @@ Game.getMaxLine = function(){
 
 console.log(Game.maxLine);
 
-
+Game.Board = function(){
+  this.column = [[],[],[],[],[],[],[],[],[],[]];
+  this.row = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
+};
 
 Game.Piece = function(options){
   this.x = options.x;
@@ -148,17 +154,21 @@ Game.Piece = function(options){
 
 Game.Piece.prototype.moveLeft = function(current_piece){
   this.x -= 30;
-}
+};
 
 Game.Piece.prototype.moveRight = function(current_piece){
   this.x += 30;
-}
+};
 
 Game.Piece.prototype.drop = function(current_piece){
   if (this.y < Game.maxLine) {
     this.y += 10;
+
   }
   else {
+    Game.Board();
+    board.column[this.x/30].push(this)
+    console.log(board.column)
     Game.getMaxLine();
     Game.pieces.push(new Game.Piece({x:30,y:0,}))
   }
