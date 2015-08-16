@@ -73,15 +73,15 @@
 
 
 Game = {
-  FRAME_DELAY: 70,
+  FRAME_DELAY: 100,
   lastTick: 0,
   pieces: [],
   maxLine: 570,
 };
 
 Game.start = function(){
+  board = new Game.Board;
   Game.onAnimationFrame();
-  board = new Game.Board
 };
 
 Game.onAnimationFrame = function(){
@@ -98,7 +98,6 @@ Game.tick = function(){
   this.pieces[this.pieces.length-1].drop();
   this.redraw();
 }
-
 // this.pieces.forEach(function(piece){
 //     piece.drop(piece);
 //   });
@@ -126,19 +125,19 @@ Game.redraw = function(){
 
 
 // for i in
-Game.getMaxLine = function(){
-  console.log(Game.pieces[Game.pieces.length - 1])
-  console.log(Game.maxLine)
-  for (i=0; i< Game.pieces.length; i++){
-    if (Game.pieces[i].y === Game.maxLine) {
-      Game.maxLine = (Game.pieces[i].y - 30);
-    }
-    else {
-      console.log("fuck")
-    }
-    console.log(Game.maxLine)
-  }
-};
+// Game.getMaxLine = function(){
+//   console.log(Game.pieces[Game.pieces.length - 1])
+//   console.log(Game.maxLine)
+//   for (i=0; i< Game.pieces.length; i++){
+//     if (Game.pieces[i].y === Game.maxLine) {
+//       Game.maxLine = (Game.pieces[i].y - 30);
+//     }
+//     else {
+//       console.log("fuck")
+//     }
+//     console.log(Game.maxLine)
+//   }
+// };
 
 console.log(Game.maxLine);
 
@@ -147,15 +146,12 @@ Game.Board = function(){
   this.row = [[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
 };
 
-Game.Board.prototype.getMaxLineOfColumn = (function(columnz) {
-  max = 570
-  for (i=0;i<board.column[columnz].length; i++) {
-    if (this.column[columnz][i].x > this.column[columnz][i+1].x) {
-      max = this.column[columnz][i].x
-      console.log(max)
-    };
-  };
-})();
+
+Game.Board.prototype.getMaxLineOfColumn = function(columnInput) {
+  pieceColumn = this.column[columnInput]
+  max = 570 - pieceColumn.length * 30
+  return max
+};
 
 Game.Piece = function(options){
   this.x = options.x;
@@ -163,23 +159,34 @@ Game.Piece = function(options){
 };
 
 Game.Piece.prototype.moveLeft = function(current_piece){
-  this.x -= 30;
+  if (this.x > 0) {
+    this.x -= 30;
+  };
 };
 
 Game.Piece.prototype.moveRight = function(current_piece){
+  if (this.x < 270) {
   this.x += 30;
+  };
 };
+
+// Game.Piece.prototype.drop = function(current_piece){
+//   column = this.x/30;
+//   if (this.y < Game.Board.getMaxLineOfColumn(this.x/30)) {
+//     this.y += 10;
+
+//   }
+
 
 Game.Piece.prototype.drop = function(current_piece){
   column = this.x/30;
-  if (this.y < Game.Board.getMaxLineOfColumn(this.x/30)) {
-    this.y += 10;
-
+  columnMax = board.getMaxLineOfColumn(column)
+  if (this.y < columnMax) {
+    this.y += 30;
   }
   else {
-    board.column[this.x/30].push(this)
+    board.column[column].push(this)
     console.log(board.column)
-    Game.getMaxLine();
     Game.pieces.push(new Game.Piece({x:30,y:0,}))
   }
 
@@ -223,7 +230,8 @@ window.addEventListener('keydown', function(event) {
 });
 
 
-Game.start()
+Game.start();
+
 
 
 
