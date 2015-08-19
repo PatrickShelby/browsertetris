@@ -149,7 +149,7 @@ Game.Board = function(){
 
 Game.Board.prototype.getMaxLineOfColumn = function(columnInput) {
   pieceColumn = this.column[columnInput]
-  max = 570 - pieceColumn.length * 30
+  max = 570 - (pieceColumn.length * 30)
   return max
 };
 
@@ -159,13 +159,13 @@ Game.Piece = function(options){
 };
 
 Game.Piece.prototype.moveLeft = function(current_piece){
-  if (this.x > 0) {
+  if ((this.x > 0) && (this.y < board.getMaxLineOfColumn(((this.x/30)-1)))) {
     this.x -= 30;
   };
 };
 
 Game.Piece.prototype.moveRight = function(current_piece){
-  if (this.x < 270) {
+  if ((this.x < 270) && (this.y < board.getMaxLineOfColumn(((this.x/30)+1)))) {
   this.x += 30;
   };
 };
@@ -187,13 +187,13 @@ Game.Piece.prototype.drop = function(current_piece){
   else {
     board.column[column].push(this)
     console.log(board.column)
-    Game.pieces.push(new Game.Piece({x:30,y:0,}))
+    Game.pieces.push(new Game.Piece({x:120,y:0,}))
   }
 
 };
 
 // if (!Game.Piece.drop();) {
-  Game.pieces.push(new Game.Piece({x:30,y:0,}))
+  Game.pieces.push(new Game.Piece({x:120,y:0,}))
 // }
 
 
