@@ -230,7 +230,10 @@ window.addEventListener('keydown', function(event) {
 });
 
 
-Game.start();
+document.getElementById("start_game").addEventListener("click", function(){
+    Game.start();
+});
+
 
 
 
