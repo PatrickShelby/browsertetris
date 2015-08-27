@@ -1,4 +1,4 @@
-
+window.onload = function(){
 // blockCoordinates = [4,0,4,1,5,0,5,1];
 // singleCoordinates = [0,0];
 // var canvas = document.getElementById("myCanvas");
@@ -230,12 +230,13 @@ window.addEventListener('keydown', function(event) {
 });
 
 
-var startButton = document.getElementById('start_Game');
+  var startButton = document.getElementById('start_Game');
 
-startButton.onclick = function() {
-  Game.start();
-}
+  startButton.onclick = function() {
+    Game.start();
+  }
 
+};
 
 
 
